@@ -17,7 +17,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/status', (req, res) => {
   res.send({
-    currentStatus: 'ACTIVE',
+    electionsState: 'ACTIVE',
     startDate: '20-02-2020',
     endDate: '30-02-2020',
   });

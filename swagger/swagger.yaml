@@ -24,8 +24,8 @@ components:
     Status:
       type: object
       properties:
-        currentStatus:
-          $ref: '#/components/schemas/SystemStatus'
+        electionsState:
+          $ref: '#/components/schemas/ElectionsState'
           description: Voting status
         startDate:
           type: string
@@ -35,7 +35,7 @@ components:
           type: string
           format: date
           description: Start date
-    SystemStatus:
+    ElectionsState:
       type: string
       enum:
         - 'AVAILABLE'
