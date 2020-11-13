@@ -4,6 +4,14 @@
 
 This is a package for creating easy to read swagger docs
 
+## Before run
+
+Before running use install command to get all dependencies
+
+```sh
+npm install
+```
+
 ## Run
 
 ```sh
