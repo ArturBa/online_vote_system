@@ -10,9 +10,9 @@ This is a package for creating easy to read swagger docs
 npm start
 ```
 
-the port will be probably 4042
+the port will be probably `4000`
 
-go to page [http://localhost:4200/api-docs](http://localhost:4200/api-docs)
+go to page [`http://localhost:4000/api-docs`](http://localhost:4000/api-docs)
 
 ## Fake API
 
@@ -20,8 +20,8 @@ go to page [http://localhost:4200/api-docs](http://localhost:4200/api-docs)
 npm run fakeAPI
 ```
 
-the port will be 5000
+the port will be `5000`
 
-go to page [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+go to page [`http://localhost:5000/api-docs`](http://localhost:5000/api-docs)
 
-Also api will be available
+Fake API is used to simulate default behavior of the frontend, when backend is not available

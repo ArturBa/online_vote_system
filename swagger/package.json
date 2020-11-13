@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon -L server.js",
-    "fakeAPI": "PORT=4042 nodemon -L server.js"
+    "fakeAPI": "PORT=4000 nodemon -L server.js"
   },
   "author": "",
   "license": "ISC",
