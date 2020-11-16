@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Vote online API
+  version: 0.1.0
+paths:
+  /status:
+    get:
+      description: Get vote systems status
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+servers:
+  - url: http://localhost:5000
+    description: Production server (uses live data)
+  - url: http://localhost:4000
+    description: Sandbox server (uses test data)
+
+components:
+  schemas:
+    Status:
+      type: object
+      properties:
+        electionsState:
+          $ref: '#/components/schemas/ElectionsState'
+          description: Voting status
+        startDate:
+          type: string
+          format: date
+          description: Start date
+        endDate:
+          type: string
+          format: date
+          description: Start date
+    ElectionsState:
+      type: string
+      enum:
+        - 'AVAILABLE'
+        - 'CANCELED'
