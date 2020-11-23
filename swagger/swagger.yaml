@@ -12,7 +12,76 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Status'
+                $ref: "#/components/schemas/Status"
+  /candidates:
+    get:
+      description: Get candidates
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Candidates"
+  /getCode:
+    post:
+      description: Get Code
+      parameters:
+        - in: body
+          name: user
+          description: The user to generate code.
+          schema:
+            type: object
+            required:
+              - name
+              - surname
+              - PESEL
+            properties:
+              name:
+                type: string
+              surname:
+                type: string
+              PESEL:
+                type: number
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Code"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Code"
+  /vote:
+    post:
+      description: Make a vote
+      parameters:
+        - in: body
+          name: vote
+          description: The user to generate code.
+          schema:
+            type: object
+            required:
+              - code
+              - vote_list
+            properties:
+              code:
+                type: string
+              vote_list:
+                type: array
+                items:
+                  description: candidate id
+                  type: string
+      responses:
+        200:
+          description: Success
+        400:
+          description: Code invalid
+
 servers:
   - url: http://localhost:5000
     description: Production server (uses live data)
@@ -25,7 +94,7 @@ components:
       type: object
       properties:
         electionsState:
-          $ref: '#/components/schemas/ElectionsState'
+          $ref: "#/components/schemas/ElectionsState"
           description: Voting status
         startDate:
           type: string
@@ -38,5 +107,45 @@ components:
     ElectionsState:
       type: string
       enum:
-        - 'AVAILABLE'
-        - 'CANCELED'
+        - "EDIT"
+        - "AVAILABLE"
+        - "CANCELED"
+        - "DONE"
+    Candidates:
+      type: object
+      properties:
+        maxVotes:
+          type: number
+          description: Max votes per user
+        list:
+          type: array
+          items:
+            $ref: "#/components/schemas/List"
+    List:
+      type: object
+      properties:
+        name:
+          type: string
+          description: List name
+        candidates:
+          type: array
+          items:
+            $ref: "#/components/schemas/Candidate"
+    Candidate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Candidate id
+        name:
+          type: string
+          description: Candidate name
+        surname:
+          type: string
+          description: Candidate surname
+    Code:
+      type: object
+      properties:
+        value:
+          type: string
+          description: New code or error message
