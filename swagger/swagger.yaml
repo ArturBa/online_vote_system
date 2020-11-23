@@ -47,15 +47,17 @@ paths:
         200:
           description: Success
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Code"
+            text/plain:
+              schema: 
+                type: string
+                example: code
         400:
           description: Error
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Code"
+            text/plain:
+              schema: 
+                type: string
+                example: Data invalid
   /vote:
     post:
       description: Make a vote
@@ -143,9 +145,3 @@ components:
         surname:
           type: string
           description: Candidate surname
-    Code:
-      type: object
-      properties:
-        value:
-          type: string
-          description: New code or error message
