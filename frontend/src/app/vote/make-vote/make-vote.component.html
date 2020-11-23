@@ -15,8 +15,9 @@ Make vote on max: {{ candidates?.maxVotes }} candidates.
     <ul>
       <li *ngFor="let candidate of list.candidates">
         <mat-checkbox
-          (click)="toggle(candidate.id)"
-          [checked]="isCandidateSelected(candidate.id)"
+          (click)="toggleCandidate(candidate.id)"
+          [value]="isCandidateSelected(candidate.id)"
+          [disabled]="!isSpateVote()"
         >
           {{ candidate.name }}
           <strong>

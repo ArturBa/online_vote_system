@@ -22,6 +22,10 @@ export class MakeVoteComponent {
     });
   }
 
+  isSpateVote(): boolean {
+    return this.selectedCandidates.length <= this.candidates.maxVotes;
+  }
+
   isCandidateSelected(code: string): boolean {
     return this.selectedCandidates.indexOf(code) >= 0;
   }
@@ -33,12 +37,9 @@ export class MakeVoteComponent {
     );
   }
 
-  toggle(code: string) {
+  toggleCandidate(code: string) {
     if (this.isCandidateSelected(code)) {
-      this.selectedCandidates = this.selectedCandidates.splice(
-        this.selectedCandidates.indexOf(code),
-        1,
-      );
+      this.selectedCandidates.splice(this.selectedCandidates.indexOf(code), 1);
     } else {
       this.selectedCandidates.push(code);
     }
@@ -52,6 +53,13 @@ export class MakeVoteComponent {
       ...this.form.value,
       vote_list: this.selectedCandidates,
     };
-    this.voteService.vote(vote).subscribe();
+    this.voteService.vote(vote).subscribe(
+      () => {
+        console.log('vote success');
+      },
+      () => {
+        console.log('vote failure');
+      },
+    );
   }
 }
