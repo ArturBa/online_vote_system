@@ -23,7 +23,7 @@ export class MakeVoteComponent {
   }
 
   isSpateVote(): boolean {
-    return this.selectedCandidates.length <= this.candidates.maxVotes;
+    return this.selectedCandidates.length < this.candidates.maxVotes;
   }
 
   isCandidateSelected(code: string): boolean {
@@ -40,10 +40,9 @@ export class MakeVoteComponent {
   toggleCandidate(code: string) {
     if (this.isCandidateSelected(code)) {
       this.selectedCandidates.splice(this.selectedCandidates.indexOf(code), 1);
-    } else {
+    } else if (this.isSpateVote()) {
       this.selectedCandidates.push(code);
     }
-    console.log(this.selectedCandidates);
   }
 
   submit(): void {

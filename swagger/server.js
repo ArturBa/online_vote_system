@@ -38,6 +38,13 @@ app.get("/candidates", (req, res) => {
           { id: "02", name: "Ja", surname: "Ga" },
         ],
       },
+      {
+        name: "List 1",
+        candidates: [
+          { id: "03", name: "Wi", surname: "Fi" },
+          { id: "04", name: "Łu", surname: "Ko" },
+        ],
+      },
     ],
   });
 });

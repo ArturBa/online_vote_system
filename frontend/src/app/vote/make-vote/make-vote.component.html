@@ -17,7 +17,7 @@ Make vote on max: {{ candidates?.maxVotes }} candidates.
         <mat-checkbox
           (click)="toggleCandidate(candidate.id)"
           [value]="isCandidateSelected(candidate.id)"
-          [disabled]="!isSpateVote()"
+          [disabled]="!isSpateVote() && !isCandidateSelected(candidate.id)"
         >
           {{ candidate.name }}
           <strong>

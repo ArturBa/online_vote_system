@@ -43,3 +43,10 @@
 >
   Generate code
 </button>
+
+<div class="userCode" *ngIf="userCode">
+  UserCode: {{ userCode }}
+  <a (click)="copyToClipboard()">Copy to clipboard</a>
+  <a (click)="saveToFile()">Save as file</a>
+</div>
+<div class="errorCode" *ngIf="errorCode">errorCode: {{ errorCode }}</div>
