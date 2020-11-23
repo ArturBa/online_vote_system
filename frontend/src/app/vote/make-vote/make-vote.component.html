@@ -1,0 +1,38 @@
+Make vote on max: {{ candidates?.maxVotes }} candidates.
+
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Code</mat-label>
+    <input type="text" matInput formControlName="code" placeholder="Code" />
+    <mat-hint>Input your vote code</mat-hint>
+    <mat-error *ngIf="form.get('code').hasError('required')">
+      Code is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <br />
+  <section class="candidates" *ngFor="let list of candidates?.list">
+    <h3>{{ list.name }}</h3>
+    <ul>
+      <li *ngFor="let candidate of list.candidates">
+        <mat-checkbox
+          (click)="toggle(candidate.id)"
+          [checked]="isCandidateSelected(candidate.id)"
+        >
+          {{ candidate.name }}
+          <strong>
+            {{ candidate.surname }}
+          </strong>
+        </mat-checkbox>
+      </li>
+    </ul>
+  </section>
+</form>
+
+<button
+  mat-raised-button
+  color="primary"
+  [disabled]="!form.valid || !selectionValid()"
+  (click)="submit()"
+>
+  Vote
+</button>

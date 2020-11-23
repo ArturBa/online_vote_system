@@ -18,9 +18,32 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get("/status", (req, res) => {
   res.send({
     electionsState: "ACTIVE",
-    startDate: "20-02-2020",
-    endDate: "30-02-2020",
+    startDate: "2020-11-19T00:00:00.00Z",
+    endDate: "2020-11-29T00:00:00.00Z",
   });
+});
+
+app.post("/getCode", (req, res) => {
+  res.send("thisisecretcode");
+});
+
+app.get("/candidates", (req, res) => {
+  res.send({
+    maxVotes: 3,
+    list: [
+      {
+        name: "List 0",
+        candidates: [
+          { id: "01", name: "Ar", surname: "Ba" },
+          { id: "02", name: "Ja", surname: "Ga" },
+        ],
+      },
+    ],
+  });
+});
+
+app.post("/vote", (req, res) => {
+  res.send();
 });
 
 app.listen(port, () => console.log(`listening on ${port}`));

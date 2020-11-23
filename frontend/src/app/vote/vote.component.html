@@ -1,11 +1,8 @@
-<h1>Vote online system</h1>
-
-{{ status | json }}
+<h1>Voting is: Active</h1>
+<h3>Start: {{ voteStatus?.startDate | date: 'd MMM y' }}</h3>
+<h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
 <br />
 
-<mat-form-field class="example-full-width">
-  <mat-label>Name</mat-label>
-  <input matInput placeholder="Ex. pat@example.com" />
-</mat-form-field>
-
-<button (click)="getVoteCode()">Send voter</button>
+<app-generate-code class="col-md-12 col-xs-24"></app-generate-code>
+<br />
+<app-make-vote class="col-md-12 col-xs-24"></app-make-vote>

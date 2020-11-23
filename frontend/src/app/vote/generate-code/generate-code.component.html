@@ -1,0 +1,45 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input type="text" matInput formControlName="name" placeholder="John" />
+    <mat-hint>Input your real name</mat-hint>
+    <mat-error *ngIf="form.get('name').hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <br />
+
+  <mat-form-field>
+    <mat-label>Surname</mat-label>
+    <input type="text" matInput formControlName="surname" placeholder="Smith" />
+    <mat-hint>Input your real surname</mat-hint>
+    <mat-error *ngIf="form.get('surname').hasError('required')">
+      Surname is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <br />
+
+  <mat-form-field>
+    <mat-label>Pesel</mat-label>
+    <input
+      type="number"
+      matInput
+      formControlName="PESEL"
+      placeholder="01010101234"
+    />
+    <mat-hint>Input your real pesel</mat-hint>
+    <mat-error *ngIf="form.get('PESEL').hasError('required')">
+      Pesel is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <br />
+</form>
+
+<button
+  mat-raised-button
+  color="primary"
+  [disabled]="!form.valid"
+  (click)="submitForm()"
+>
+  Generate code
+</button>

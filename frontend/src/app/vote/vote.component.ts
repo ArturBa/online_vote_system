@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Status, Voter } from '../services/vote.model';
+import { ElectionsState, VoteStatus } from '../services/vote.model';
 import { VoteService } from '../services/vote.service';
 
 @Component({
@@ -9,27 +9,14 @@ import { VoteService } from '../services/vote.service';
   styleUrls: ['./vote.component.scss'],
 })
 export class VoteComponent implements OnInit {
-  constructor(private voteService: VoteService) {}
+  readonly electionState = ElectionsState;
+  voteStatus: VoteStatus;
 
-  status: Status;
+  constructor(protected voteService: VoteService) {}
 
   ngOnInit(): void {
-    this.initDate();
-  }
-
-  initDate(): void {
-    this.voteService.getStatus().subscribe((status) => {
-      this.status = status;
-    });
-  }
-
-  getVoteCode(): void {
-    const voter: Voter = {
-      pesel: 12412,
-      firstName: 'a',
-      lastName: 'b',
-    };
-
-    this.voteService.getVoteCode(voter).subscribe((voteCode) => {});
+    this.voteService
+      .getStatus()
+      .subscribe((status) => (this.voteStatus = status));
   }
 }
