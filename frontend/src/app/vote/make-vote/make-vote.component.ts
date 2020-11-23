@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Candidates } from 'src/app/services/vote.model';
+import { Candidates, Vote } from 'src/app/services/vote.model';
 import { VoteService } from 'src/app/services/vote.service';
 
 @Component({
@@ -48,6 +48,10 @@ export class MakeVoteComponent {
   submit(): void {
     this.form.markAllAsTouched();
 
-    console.log(this.selectedCandidates);
+    const vote: Vote = {
+      ...this.form.value,
+      vote_list: this.selectedCandidates,
+    };
+    this.voteService.vote(vote).subscribe();
   }
 }
