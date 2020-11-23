@@ -44,9 +44,13 @@
   Generate code
 </button>
 
-<div class="userCode" *ngIf="userCode">
+<div class="codeUser" *ngIf="userCode">
   UserCode: {{ userCode }}
-  <a (click)="copyToClipboard()">Copy to clipboard</a>
-  <a (click)="saveToFile()">Save as file</a>
+  <button mat-button (click)="copyToClipboard()" title="Copy to clipboard">
+    <mat-icon>archive</mat-icon>
+  </button>
+  <button mat-button (click)="saveToFile()" title="Save to file">
+    <mat-icon>save_alt</mat-icon>
+  </button>
 </div>
-<div class="errorCode" *ngIf="errorCode">errorCode: {{ errorCode }}</div>
+<div class="codeError" *ngIf="errorCode">errorCode: {{ errorCode }}</div>

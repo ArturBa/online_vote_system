@@ -25,7 +25,7 @@ export class GenerateCodeComponent {
     const blob = new Blob(['Online vote code: ', this.userCode], {
       type: 'text/plain;charset=utf-8',
     });
-    saveAs(blob, 'saveFile.txt');
+    saveAs(blob, 'OnlineVoteCode.txt');
   }
 
   copyToClipboard() {

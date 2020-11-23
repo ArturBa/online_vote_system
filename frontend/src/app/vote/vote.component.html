@@ -3,6 +3,7 @@
 <h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
 <br />
 
-<app-generate-code class="col-md-12 col-xs-24"></app-generate-code>
-<br />
-<app-make-vote class="col-md-12 col-xs-24"></app-make-vote>
+<div class="row">
+  <app-generate-code class="col-md-6 col-sm-12"></app-generate-code>
+  <app-make-vote class="col-md-6 col-sm-12"></app-make-vote>
+</div>
