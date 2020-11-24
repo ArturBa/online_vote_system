@@ -9,14 +9,16 @@
   .code {
     width: 70%;
     height: 3rem;
+    padding: 5px;
+    border-radius: 10px;
 
     &User {
       @extend .code;
-      background-color: green;
+      background-color: lightgreen;
     }
     &Error {
       @extend .code;
-      background-color: red;
+      background-color: lightcoral;
     }
   }
 }
