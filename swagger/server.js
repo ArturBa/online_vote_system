@@ -24,6 +24,7 @@ app.get("/status", (req, res) => {
 });
 
 app.post("/getCode", (req, res) => {
+  // res.status(400).send('Data does not mach');
   res.send("thisisecretcode");
 });
 
@@ -50,6 +51,7 @@ app.get("/candidates", (req, res) => {
 });
 
 app.post("/vote", (req, res) => {
+  // res.status(400).send();
   res.send();
 });
 

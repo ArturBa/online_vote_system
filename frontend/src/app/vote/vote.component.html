@@ -1,9 +1,10 @@
-<h1>Voting is: Active</h1>
-<h3>Start: {{ voteStatus?.startDate | date: 'd MMM y' }}</h3>
-<h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
-<br />
+<div class="header">
+  <h1>Voting is: {{ voteStatus?.electionsState }}</h1>
+  <h3>Start: {{ voteStatus?.startDate | date: 'd MMM y' }}</h3>
+  <h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
+</div>
 
-<div class="row">
-  <app-generate-code class="col-md-6 col-sm-12"></app-generate-code>
-  <app-make-vote class="col-md-6 col-sm-12"></app-make-vote>
+<div class="row" *ngIf="voteStatus?.electionsState == electionState.ACTIVE">
+  <app-generate-code class="tile"></app-generate-code>
+  <app-make-vote class="tile"></app-make-vote>
 </div>

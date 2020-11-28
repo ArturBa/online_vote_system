@@ -45,12 +45,25 @@
 </button>
 
 <div class="codeUser" *ngIf="userCode">
-  UserCode: {{ userCode }}
-  <button mat-button (click)="copyToClipboard()" title="Copy to clipboard">
-    <mat-icon>archive</mat-icon>
+  Vote code: {{ userCode }}
+  <button
+    mat-icon-button
+    (click)="copyToClipboard()"
+    matTooltip="Copy to clipboard"
+  >
+    <mat-icon>content_copy</mat-icon>
   </button>
-  <button mat-button (click)="saveToFile()" title="Save to file">
+  <button mat-icon-button (click)="saveToFile()" matTooltip="Save to file">
     <mat-icon>save_alt</mat-icon>
   </button>
+  <button mat-icon-button (click)="userCode = ''" matTooltip="Close">
+    <mat-icon>clear</mat-icon>
+  </button>
 </div>
-<div class="codeError" *ngIf="errorCode">errorCode: {{ errorCode }}</div>
+<div class="codeError" *ngIf="errorCode">
+  {{ errorCode }}
+
+  <button mat-icon-button (click)="errorCode = ''" matTooltip="Close">
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>

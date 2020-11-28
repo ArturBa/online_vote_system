@@ -1,13 +1,15 @@
 export interface VoteStatus {
-  electionState: string;
+  electionsState: string;
   startDate: string;
   endDate: string;
 }
 
 export enum ElectionsState {
-  SUCCESS = 'SUCCESS',
-  VOTED_ALREADY = 'VOTED_ALREADY',
-  NOT_PERMITTED = 'NOT_PERMITTED',
+  EDIT = 'EDIT',
+  AVAILABLE = 'AVAILABLE',
+  ACTIVE = 'ACTIVE',
+  CANCELED = 'CANCELED',
+  DONE = 'DONE',
 }
 
 export interface Vote {

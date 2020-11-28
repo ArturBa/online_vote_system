@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VoteService } from 'src/app/services/vote.service';
 import { saveAs } from 'file-saver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-generate-code',
@@ -13,7 +14,10 @@ export class GenerateCodeComponent {
   userCode = '';
   errorCode = '';
 
-  constructor(protected voteService: VoteService) {
+  constructor(
+    protected voteService: VoteService,
+    protected snackBar: MatSnackBar,
+  ) {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
@@ -35,6 +39,7 @@ export class GenerateCodeComponent {
       document.removeEventListener('copy', null);
     });
     document.execCommand('copy');
+    this.snackBar.open('Code copied to clipboard', 'X', { duration: 1000 });
   }
 
   submitForm(): void {
@@ -47,7 +52,7 @@ export class GenerateCodeComponent {
           this.userCode = res;
         },
         (res) => {
-          this.errorCode = res;
+          this.errorCode = res.error;
         },
       );
     }

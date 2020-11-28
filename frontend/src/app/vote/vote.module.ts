@@ -10,6 +10,8 @@ import { GenerateCodeComponent } from './generate-code/generate-code.component';
 import { MakeVoteComponent } from './make-vote/make-vote.component';
 import { VoteComponent } from './vote.component';
 import { VoteRoutingModule } from './vote-routing.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [VoteComponent, GenerateCodeComponent, MakeVoteComponent],
@@ -18,6 +20,8 @@ import { VoteRoutingModule } from './vote-routing.module';
     ReactiveFormsModule,
     VoteRoutingModule,
 
+    MatSnackBarModule,
+    MatTooltipModule,
     MatButtonModule,
     MatCheckboxModule,
     MatIconModule,

@@ -1,0 +1,32 @@
+@import '../../colors';
+
+:host {
+  .header {
+    border-width: 0;
+    border-bottom-width: 5px;
+    border-style: solid;
+    border-color: #1d8c96;
+    margin-bottom: 4rem;
+    font-family: serif;
+  }
+
+  .tile {
+    flex-grow: 1;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    border-width: 2px;
+    // border-color: $black;
+    // border-style: groove;
+    padding: 40px;
+    margin: 20px;
+    box-shadow: 0 0 7px 10px #3d3d3d1c;
+
+    ::ng-deep {
+      mat-form-field {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}

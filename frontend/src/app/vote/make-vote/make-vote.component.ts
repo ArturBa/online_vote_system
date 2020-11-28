@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Candidates, Vote } from 'src/app/services/vote.model';
 import { VoteService } from 'src/app/services/vote.service';
 
@@ -13,11 +14,18 @@ export class MakeVoteComponent {
   selectedCandidates: string[] = [];
   form: FormGroup;
 
-  constructor(protected voteService: VoteService) {
+  constructor(
+    protected voteService: VoteService,
+    protected snackBar: MatSnackBar,
+  ) {
     this.voteService.getCandidates().subscribe((candidates) => {
       this.candidates = candidates;
     });
-    this.form = new FormGroup({
+    this.form = MakeVoteComponent.generateForm();
+  }
+
+  static generateForm(): FormGroup {
+    return new FormGroup({
       code: new FormControl('', Validators.required),
     });
   }
@@ -54,10 +62,15 @@ export class MakeVoteComponent {
     };
     this.voteService.vote(vote).subscribe(
       () => {
-        console.log('vote success');
+        this.snackBar.open('Vote success', 'X', { duration: 1000 });
+        this.selectedCandidates = [];
+        this.form.get('code').patchValue('');
       },
       () => {
-        console.log('vote failure');
+        this.snackBar.open('Code invalid', 'X', {
+          duration: 50000,
+          panelClass: 'snack-bar-error',
+        });
       },
     );
   }

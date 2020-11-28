@@ -1,24 +1,19 @@
+@import '../../../colors';
+
 :host {
-  display: block;
-  width: 100%;
-
-  mat-form-field {
-    width: 70%;
-  }
-
   .code {
-    width: 70%;
-    height: 3rem;
+    width: 100%;
+    min-height: 3rem;
     padding: 5px;
     border-radius: 10px;
 
     &User {
       @extend .code;
-      background-color: lightgreen;
+      background-color: $green;
     }
     &Error {
       @extend .code;
-      background-color: lightcoral;
+      background-color: $red;
     }
   }
 }

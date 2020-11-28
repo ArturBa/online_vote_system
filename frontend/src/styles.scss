@@ -2,11 +2,24 @@
 @import '~bootstrap/scss/bootstrap-reboot';
 @import '~bootstrap/scss/bootstrap-grid';
 
+@import 'colors';
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: $background;
+  color: $black;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.mat-snack-bar-container {
+  background-color: $green;
+  color: $black;
+}
+
+.snack-bar-error {
+  background-color: $red;
 }
