@@ -47,7 +47,6 @@ def create(electedOrgan, votesToUse):
     new_election = Elections(electedOrgan, votesToUse)
     session.add(new_election)
     session.commit()
-    session.close()
 
 
 def register(id, startTime, endTime):
@@ -61,7 +60,6 @@ def register(id, startTime, endTime):
     else:
         election.update({'startTime': startTime, 'endTime': endTime, 'electionsState': 'registered'})
         session.commit()
-        session.close()
         return 1
 
 
@@ -80,7 +78,6 @@ def close(id):
     election = session.query(Elections).filter_by(id=id)
     election.update({'electionsState': 'closed'})
     session.commit()
-    session.close()
     return votes
 
 
@@ -89,4 +86,3 @@ def delete(id):
     session = Session1()
     session.query(Elections).filter_by(id=id).delete()
     session.commit()
-    session.close()

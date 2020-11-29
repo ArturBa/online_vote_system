@@ -50,7 +50,6 @@ def create(election_id, pesel):
     new_code = VotingCode(election_id, pesel, code)
     session.add(new_code)
     session.commit()
-    session.close()
     return new_code
 
 
@@ -70,4 +69,3 @@ def delete(election_id, pesel):
     session = Session1()
     session.query(VotingCode).filter_by(election_id=election_id, pesel=pesel).delete()
     session.commit()
-    session.close()

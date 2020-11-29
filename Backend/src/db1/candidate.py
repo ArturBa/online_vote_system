@@ -44,7 +44,6 @@ def add(electionsList, firstName, secondName):
         new_candidate = Candidate(electionsList, firstName, secondName)
         session.add(new_candidate)
         session.commit()
-        session.close()
         return 1
     else:
         return 0
@@ -55,7 +54,6 @@ def delete(id):
     session = Session1()
     session.query(Candidate).filter_by(id=id).delete()
     session.commit()
-    session.close()
 
 
 def vote(electionsList, firstName, secondName):
@@ -66,7 +64,6 @@ def vote(electionsList, firstName, secondName):
     if Candidate is not None:
         candidate.update({'numberOfVotes': Candidate.numberOfVotes + 1})
         session.commit()
-        session.close()
         return 1
     else:
         return 0

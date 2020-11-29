@@ -44,7 +44,6 @@ def create(listName):
         new_list = ElectionList(listName)
         session.add(new_list)
         session.commit()
-        session.close()
         return 1
 
 
@@ -54,7 +53,6 @@ def register(id, elections_id):
     election = session.query(ElectionList).filter_by(id=id)
     election.update({'elections_id': elections_id, 'registrationDate': datetime.datetime.now()})
     session.commit()
-    session.close()
 
 
 def delete(id):

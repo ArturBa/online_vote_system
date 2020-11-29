@@ -32,10 +32,11 @@ def get(pesel):
     return voter
 
 
-def verify(pesel):
+def verify(pesel, first_name, second_name):
     # check if the voter with given pesel already exists in db
     session = Session2()
-    exists = session.query(Voter).filter_by(pesel=pesel).scalar() is not None
+    exists = session.query(Voter).filter_by(pesel=pesel, firstName=first_name
+                                            , secondName=second_name).scalar() is not None
     return exists
 
 
@@ -49,7 +50,6 @@ def add(pesel, first_name, second_name):
         new_voter = Voter(pesel, first_name, second_name)
         session.add(new_voter)
         session.commit()
-        session.close()
         return 1
 
 
@@ -58,4 +58,3 @@ def delete(pesel):
     session = Session2()
     session.query(Voter).filter_by(pesel=pesel).delete()
     session.commit()
-    session.close()
