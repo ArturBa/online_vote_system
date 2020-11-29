@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Vote online API
+  version: 0.1.0
+paths:
+  /status:
+    get:
+      description: Get vote systems status
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+  /candidates:
+    get:
+      description: Get candidates
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Candidates"
+  /getCode:
+    post:
+      description: Get Code
+      requestBody:
+        description: The user to generate code.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - electionID
+                - name
+                - surname
+                - PESEL
+              properties:
+                electionID:
+                  type: number
+                name:
+                  type: string
+                surname:
+                  type: string
+                PESEL:
+                  type: number
+         
+            
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              schema: 
+                type: string
+                example: code
+        400:
+          description: Error
+          content:
+            text/plain:
+              schema: 
+                type: string
+                example: Data invalid
+  /vote:
+    post:
+      description: Make a vote
+      requestBody:
+        description: Candidates to add votes.
+        required: true
+        content:
+          application/json:
+            schema:      
+              type: object
+              required:
+                - code
+                - vote_list
+              properties:
+                code:
+                  type: string
+                vote_list:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Candidate"
+      responses:
+        200:
+          description: Success
+        400:
+          description: Code invalid
+
+servers:
+  - url: http://localhost:5000
+    description: Production server (uses live data)
+  - url: http://localhost:4000
+    description: Sandbox server (uses test data)
+
+components:
+  schemas:
+    Status:
+      type: object
+      properties:
+        electionsState:
+          $ref: "#/components/schemas/ElectionsState"
+          description: Voting status
+        startDate:
+          type: string
+          format: date
+          description: Start date
+        endDate:
+          type: string
+          format: date
+          description: Start date
+    ElectionsState:
+      type: string
+      enum:
+        - "inEdition"
+        - "registered"
+        - "ongoing"
+        - "finished"
+        - "closed"
+    Candidates:
+      type: object
+      properties:
+        maxVotes:
+          type: number
+          description: Max votes per user
+        list:
+          type: array
+          items:
+            $ref: "#/components/schemas/List"
+    List:
+      type: object
+      properties:
+        name:
+          type: string
+          description: List name
+        candidates:
+          type: array
+          items:
+            $ref: "#/components/schemas/Candidate"
+    Candidate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Candidate id
+        name:
+          type: string
+          description: Candidate name
+        surname:
+          type: string
+          description: Candidate surname

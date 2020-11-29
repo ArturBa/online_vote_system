@@ -1,0 +1,21 @@
+{
+  "name": "swagger",
+  "version": "0.1.0",
+  "description": "swagger and fake api",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon -L server.js",
+    "fakeAPI": "PORT=5000 nodemon -L server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "swagger-ui-express": "^4.1.5",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
