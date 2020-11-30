@@ -70,6 +70,14 @@ def count_votes(id):
         .join(Candidate).filter(ElectionList.elections_id == id).all()
     return votes
 
+def get_candidates(id):
+    # get all candidates from lists registered to given election id
+    session = Session1()
+    num_votes = session.query(Elections.votesToUse).filter(Elections.id == id).scalar()
+    candidates = session.query(ElectionList.id, ElectionList.listName, Candidate.id, Candidate.firstName, Candidate.secondName)\
+        .join(Candidate).filter(ElectionList.elections_id == id).order_by(ElectionList.listName).all()
+    return num_votes, candidates
+
 
 def close(id):
     # set elections_state to "closed" and return candidates with number of votes

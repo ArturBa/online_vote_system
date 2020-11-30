@@ -14,6 +14,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/status', methods = ['POST', 'GET'])
 def index():
     electionsQuery = elections.get_all()[1]
@@ -41,6 +42,36 @@ def code():
         else:
             error = "Voter is not in DB"
             return error, 400
+
+
+@app.route('/election/<int:id>/candidates', methods=['GET'])
+def candidates(id):
+    query = elections.get_candidates(id)
+    maxVotes = query[0]
+    lists = query[1]
+    candidates = []
+
+
+@app.route('/vote', methods=['POST', 'GET'])
+def vote():
+    if request.method == "POST":
+        body = request.json
+        code = body["code"]
+        lists = body["lists"]
+        if votingCode.verify(code):
+            for list in lists:
+                for cand in list["candidates"]:
+                    list_id = list["id"]
+                    id = cand["id"]
+                    name = cand["name"]
+                    surname = cand["surname"]
+                    result = candidate.vote(list_id, id, name, surname)
+                    print(result, file=stdout)
+            message = "Success"
+            return message, 200
+        else:
+            message = "Code invalid"
+            return message, 400
 
 
 if __name__ == '__main__':

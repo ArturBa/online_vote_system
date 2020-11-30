@@ -10,7 +10,7 @@ class Candidate(Base):
     electionList_id = Column(Integer, ForeignKey('electionList.id'), nullable=False)
     firstName = Column(String, nullable=False)
     secondName = Column(String, nullable=False)
-    numberOfVotes = Column(Integer, nullable=False)
+    numberOfVotes = Column(Integer)
 
     def __init__(self, electionList, firstName, secondName):
         self.electionList_id = electionList
@@ -56,13 +56,16 @@ def delete(id):
     session.commit()
 
 
-def vote(electionsList, firstName, secondName):
-    # add 1 vote to the candidate with given firstName and secondName from given election list
+def vote(electionsList, id, firstName, secondName):
+    # add 1 vote to the candidate with given id , firstName and secondName from given election list
     session = Session1()
     candidate = session.query(Candidate) \
-        .filter_by(electionList_id=electionsList, firstName=firstName, secondName=secondName)
-    if Candidate is not None:
-        candidate.update({'numberOfVotes': Candidate.numberOfVotes + 1})
+        .filter_by(electionList_id=electionsList, id=id, firstName=firstName, secondName=secondName)
+    if candidate is not None:
+        if candidate.scalar().numberOfVotes is None:
+            candidate.update({'numberOfVotes': 1})
+        else:
+            candidate.update({'numberOfVotes': Candidate.numberOfVotes + 1})
         session.commit()
         return 1
     else:

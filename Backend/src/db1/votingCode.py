@@ -56,12 +56,12 @@ def create(election_id, pesel):
 def verify(code):
     # check if given codeToVote is correct and haven't been used already
     session = Session1()
-    default = "000000000"
+    default = "USEDCODE"
     codeToVote = session.query(VotingCode).filter_by(codeToVote=code).scalar()
     if codeToVote is None or codeToVote == default:
         return 0
     else:
-        return codeToVote
+        return 1
 
 
 def delete(election_id, pesel):
