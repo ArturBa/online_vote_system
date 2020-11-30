@@ -13,8 +13,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-  /candidates:
+  /election/{id}/candidates:
     get:
+      parameters:
+        - in: path
+          name: id 
+          required: true
       description: Get candidates
       responses:
         200:
@@ -22,7 +26,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Candidates"
+                type: object
+                required:
+                  - maxVotes
+                  - lists
+                properties:
+                  maxVotes:
+                    type: number
+                    description: Max votes per user
+                  lists:
+                    type: array
+                    items:
+                     $ref: "#/components/schemas/List"
   /getCode:
     post:
       description: Get Code
@@ -76,14 +91,14 @@ paths:
               type: object
               required:
                 - code
-                - vote_list
+                - lists
               properties:
                 code:
                   type: string
-                vote_list:
+                lists:
                   type: array
                   items:
-                    $ref: "#/components/schemas/Candidate"
+                    $ref: "#/components/schemas/List"
       responses:
         200:
           description: Success
@@ -111,7 +126,7 @@ components:
         endDate:
           type: string
           format: date
-          description: Start date
+          description: End date
     ElectionsState:
       type: string
       enum:
@@ -120,19 +135,13 @@ components:
         - "ongoing"
         - "finished"
         - "closed"
-    Candidates:
-      type: object
-      properties:
-        maxVotes:
-          type: number
-          description: Max votes per user
-        list:
-          type: array
-          items:
-            $ref: "#/components/schemas/List"
+
     List:
       type: object
       properties:
+        id:
+          type: number
+          description: List id
         name:
           type: string
           description: List name
@@ -144,7 +153,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: number
           description: Candidate id
         name:
           type: string
@@ -152,3 +161,4 @@ components:
         surname:
           type: string
           description: Candidate surname
+  
