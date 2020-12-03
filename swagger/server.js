@@ -17,7 +17,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/status", (req, res) => {
   res.send({
-    electionsState: "ACTIVE",
+    electionsState: "ongoing",
     startDate: "2020-11-19T00:00:00.00Z",
     endDate: "2020-11-29T00:00:00.00Z",
   });
@@ -28,11 +28,13 @@ app.post("/getCode", (req, res) => {
   res.send("thisisecretcode");
 });
 
-app.get("/candidates", (req, res) => {
+app.get("/election/:id/candidates", (req, res) => {
+  console.log(req.params.id);
   res.send({
     maxVotes: 3,
     list: [
       {
+        id: "100",
         name: "List 0",
         candidates: [
           { id: "01", name: "Ar", surname: "Ba" },
@@ -40,6 +42,7 @@ app.get("/candidates", (req, res) => {
         ],
       },
       {
+        id: "110",
         name: "List 1",
         candidates: [
           { id: "03", name: "Wi", surname: "Fi" },
@@ -51,6 +54,7 @@ app.get("/candidates", (req, res) => {
 });
 
 app.post("/vote", (req, res) => {
+  console.log(req.body);
   // res.status(400).send();
   res.send();
 });

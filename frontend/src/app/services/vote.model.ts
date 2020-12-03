@@ -5,11 +5,11 @@ export interface VoteStatus {
 }
 
 export enum ElectionsState {
-  EDIT = 'EDIT',
-  AVAILABLE = 'AVAILABLE',
-  ACTIVE = 'ACTIVE',
-  CANCELED = 'CANCELED',
-  DONE = 'DONE',
+  EDIT = 'inEdition',
+  REGISTERED = 'registered',
+  ACTIVE = 'ongoing',
+  FINISHED = 'finished',
+  CLOSE = 'closed',
 }
 
 export interface Vote {
@@ -29,6 +29,7 @@ export interface Candidates {
 }
 
 export interface List {
+  id: string;
   name: string;
   candidates: Candidate[];
 }

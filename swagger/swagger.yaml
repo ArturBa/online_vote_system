@@ -13,8 +13,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-  /candidates:
+  /election/{id}/candidates:
     get:
+      parameters:
+        - in: path
+          name: id
+          required: true
       description: Get candidates
       responses:
         200:
@@ -22,62 +26,78 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Candidates"
+                type: object
+                required:
+                  - maxVotes
+                  - lists
+                properties:
+                  maxVotes:
+                    type: number
+                    description: Max votes per user
+                  lists:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/List"
   /getCode:
     post:
       description: Get Code
-      parameters:
-        - in: body
-          name: user
-          description: The user to generate code.
-          schema:
-            type: object
-            required:
-              - name
-              - surname
-              - PESEL
-            properties:
-              name:
-                type: string
-              surname:
-                type: string
-              PESEL:
-                type: number
+      requestBody:
+        description: The user to generate code.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - electionID
+                - name
+                - surname
+                - PESEL
+              properties:
+                electionID:
+                  type: number
+                name:
+                  type: string
+                surname:
+                  type: string
+                PESEL:
+                  type: number
+
       responses:
         200:
           description: Success
           content:
             text/plain:
-              schema: 
+              schema:
                 type: string
                 example: code
         400:
           description: Error
           content:
             text/plain:
-              schema: 
+              schema:
                 type: string
                 example: Data invalid
   /vote:
     post:
       description: Make a vote
-      parameters:
-        - in: body
-          name: vote
-          description: The user to generate code.
-          schema:
-            type: object
-            required:
-              - code
-              - vote_list
-            properties:
-              code:
-                type: string
-              vote_list:
-                type: array
-                items:
-                  description: candidate id
+      requestBody:
+        description: Candidates to add votes.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - code
+                - lists
+              properties:
+                code:
                   type: string
+                lists:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/List"
       responses:
         200:
           description: Success
@@ -105,27 +125,22 @@ components:
         endDate:
           type: string
           format: date
-          description: Start date
+          description: End date
     ElectionsState:
       type: string
       enum:
-        - "EDIT"
-        - "AVAILABLE"
-        - "CANCELED"
-        - "DONE"
-    Candidates:
-      type: object
-      properties:
-        maxVotes:
-          type: number
-          description: Max votes per user
-        list:
-          type: array
-          items:
-            $ref: "#/components/schemas/List"
+        - "inEdition"
+        - "registered"
+        - "ongoing"
+        - "finished"
+        - "closed"
+
     List:
       type: object
       properties:
+        id:
+          type: number
+          description: List id
         name:
           type: string
           description: List name
@@ -137,7 +152,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: number
           description: Candidate id
         name:
           type: string

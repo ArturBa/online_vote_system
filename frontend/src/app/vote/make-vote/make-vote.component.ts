@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Candidates, Vote } from 'src/app/services/vote.model';
-import { VoteService } from 'src/app/services/vote.service';
+import { Candidates, Vote, List, Candidate } from '../../services/vote.model';
+import { VoteService } from '../../services/vote.service';
 
 @Component({
   selector: 'app-make-vote',
@@ -11,7 +11,7 @@ import { VoteService } from 'src/app/services/vote.service';
 })
 export class MakeVoteComponent {
   candidates: Candidates;
-  selectedCandidates: string[] = [];
+  selectedCandidates: List[] = [];
   form: FormGroup;
 
   constructor(
@@ -30,12 +30,15 @@ export class MakeVoteComponent {
     });
   }
 
-  isSpateVote(): boolean {
+  isSpareVote(): boolean {
     return this.selectedCandidates.length < this.candidates.maxVotes;
   }
 
-  isCandidateSelected(code: string): boolean {
-    return this.selectedCandidates.indexOf(code) >= 0;
+  isCandidateSelected(listID: string, candidate: Candidate): boolean {
+    return (
+      this.selectedCandidates.indexOf(this.voteStructure(listID, candidate)) >=
+      0
+    );
   }
 
   selectionValid(): boolean {
@@ -45,13 +48,27 @@ export class MakeVoteComponent {
     );
   }
 
-  toggleCandidate(code: string) {
-    if (this.isCandidateSelected(code)) {
-      this.selectedCandidates.splice(this.selectedCandidates.indexOf(code), 1);
-    } else if (this.isSpateVote()) {
-      this.selectedCandidates.push(code);
+  toggleCandidate(listID: string, candidate: Candidate) {
+    if (this.isCandidateSelected(listID, candidate)) {
+      this.selectedCandidates.splice(
+        this.selectedCandidates.indexOf(this.voteStructure(listID, candidate)),
+        1,
+      );
+    } else if (this.isSpareVote()) {
+      this.selectedCandidates.push(this.voteStructure(listID, candidate));
     }
   }
+
+  voteStructure = (listID: string, candidate: Candidate): List => {
+    return {
+      id: listID,
+      candidates: [
+        {
+          ...candidate,
+        },
+      ],
+    } as List;
+  };
 
   submit(): void {
     this.form.markAllAsTouched();
