@@ -3,8 +3,12 @@ info:
   title: Vote online API
   version: 0.1.0
 paths:
-  /status:
+  /election/{id}/status:
     get:
+       parameters:
+        - in: path
+          name: id 
+          required: true
       description: Get vote systems status
       responses:
         200:
@@ -38,8 +42,12 @@ paths:
                     type: array
                     items:
                      $ref: "#/components/schemas/List"
-  /getCode:
+  /election/{id}/getCode:
     post:
+      parameters:
+        - in: path
+          name: id 
+          required: true
       description: Get Code
       requestBody:
         description: The user to generate code.
@@ -49,13 +57,10 @@ paths:
             schema:
               type: object
               required:
-                - electionID
                 - name
                 - surname
                 - PESEL
               properties:
-                electionID:
-                  type: number
                 name:
                   type: string
                 surname:
