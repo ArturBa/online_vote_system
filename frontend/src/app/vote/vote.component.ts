@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { ElectionsState, VoteStatus } from '../services/vote.model';
 import { VoteService } from '../services/vote.service';
@@ -11,12 +12,20 @@ import { VoteService } from '../services/vote.service';
 export class VoteComponent implements OnInit {
   readonly electionState = ElectionsState;
   voteStatus: VoteStatus;
+  id: number;
 
-  constructor(protected voteService: VoteService) {}
+  constructor(
+    protected voteService: VoteService,
+    protected route: ActivatedRoute,
+  ) {
+    this.route.params.subscribe((params) => {
+      this.id = params.id;
+    });
+  }
 
   ngOnInit(): void {
     this.voteService
-      .getStatus()
+      .getStatus(this.id)
       .subscribe((status) => (this.voteStatus = status));
   }
 }

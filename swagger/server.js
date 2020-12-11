@@ -15,7 +15,7 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.get("/status", (req, res) => {
+app.get("/election/:id/status", (req, res) => {
   res.send({
     electionsState: "ongoing",
     startDate: "2020-11-19T00:00:00.00Z",
@@ -23,13 +23,12 @@ app.get("/status", (req, res) => {
   });
 });
 
-app.post("/getCode", (req, res) => {
+app.post("/election/:id/getCode", (req, res) => {
   // res.status(400).send('Data does not mach');
   res.send("thisisecretcode");
 });
 
 app.get("/election/:id/candidates", (req, res) => {
-  console.log(req.params.id);
   res.send({
     maxVotes: 3,
     list: [
@@ -53,8 +52,8 @@ app.get("/election/:id/candidates", (req, res) => {
   });
 });
 
-app.post("/vote", (req, res) => {
-  console.log(req.body);
+app.post("/election/:id/vote", (req, res) => {
+  console.log(JSON.stringify(req.body));
   // res.status(400).send();
   res.send();
 });

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VoteService } from 'src/app/services/vote.service';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-generate-code',
@@ -13,6 +14,7 @@ export class GenerateCodeComponent {
   form: FormGroup;
   userCode = '';
   errorCode = '';
+  @Input() id: number;
 
   constructor(
     protected voteService: VoteService,
@@ -47,7 +49,7 @@ export class GenerateCodeComponent {
     if (this.form.valid) {
       this.userCode = '';
       this.errorCode = '';
-      this.voteService.getVoteCode(this.form.value).subscribe(
+      this.voteService.getVoteCode(this.id, this.form.value).subscribe(
         (res) => {
           this.userCode = res;
         },

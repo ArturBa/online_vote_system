@@ -5,6 +5,6 @@
 </div>
 
 <div class="row" *ngIf="voteStatus?.electionsState == electionState.ACTIVE">
-  <app-generate-code class="tile"></app-generate-code>
-  <app-make-vote class="tile"></app-make-vote>
+  <app-generate-code class="tile" [id]="id"></app-generate-code>
+  <app-make-vote class="tile" [id]="id"></app-make-vote>
 </div>

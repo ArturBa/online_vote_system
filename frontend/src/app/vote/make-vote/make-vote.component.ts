@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Candidates, Vote, List, Candidate } from '../../services/vote.model';
@@ -9,7 +9,9 @@ import { VoteService } from '../../services/vote.service';
   templateUrl: './make-vote.component.html',
   styleUrls: ['./make-vote.component.scss'],
 })
-export class MakeVoteComponent {
+export class MakeVoteComponent implements OnInit {
+  @Input() id: number;
+
   candidates: Candidates;
   selectedCandidates: List[] = [];
   form: FormGroup;
@@ -17,11 +19,15 @@ export class MakeVoteComponent {
   constructor(
     protected voteService: VoteService,
     protected snackBar: MatSnackBar,
+    protected cdr: ChangeDetectorRef,
   ) {
-    this.voteService.getCandidates().subscribe((candidates) => {
+    this.form = MakeVoteComponent.generateForm();
+  }
+
+  ngOnInit(): void {
+    this.voteService.getCandidates(this.id).subscribe((candidates) => {
       this.candidates = candidates;
     });
-    this.form = MakeVoteComponent.generateForm();
   }
 
   static generateForm(): FormGroup {
@@ -35,6 +41,14 @@ export class MakeVoteComponent {
   }
 
   isCandidateSelected(listID: string, candidate: Candidate): boolean {
+    const candidateIds = this.selectedCandidates.map(
+      (candidate) => candidate.candidates[0].id,
+    );
+    // console.log(JSON.stringify(this.voteStructure(listID, candidate)));
+    // console.log(
+    //   this.selectedCandidates.indexOf(this.voteStructure(listID, candidate))
+    // );
+    return candidateIds.indexOf(candidate.id) >= 0;
     return (
       this.selectedCandidates.indexOf(this.voteStructure(listID, candidate)) >=
       0
@@ -77,11 +91,12 @@ export class MakeVoteComponent {
       ...this.form.value,
       vote_list: this.selectedCandidates,
     };
-    this.voteService.vote(vote).subscribe(
+    this.voteService.vote(this.id, vote).subscribe(
       () => {
         this.snackBar.open('Vote success', 'X', { duration: 1000 });
         this.selectedCandidates = [];
         this.form.get('code').patchValue('');
+        this.cdr.detectChanges();
       },
       () => {
         this.snackBar.open('Code invalid', 'X', {
