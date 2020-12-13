@@ -15,18 +15,17 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/status', methods = ['POST', 'GET'])
-def index():
-    electionsQuery = elections.get_all()[1]
-    return jsonify(electionsState = electionsQuery.electionsState, startTime = electionsQuery.startTime,\
-                   endTime = electionsQuery.endTime)
+@app.route('/election/<int:id>/status', methods=['GET'])
+def index(id):
+    electionsQuery = elections.get(id)
+    return jsonify(electionsState=electionsQuery.electionsState, startTime=electionsQuery.startTime,\
+                   endTime=electionsQuery.endTime)
 
 
-@app.route('/getCode', methods=['POST', 'GET'])
-def code():
+@app.route('/election/<int:id>/getCode', methods=['POST', 'GET'])
+def code(id):
     if request.method == "POST":
         body = request.json
-        electionID = body["electionID"]
         firstName = body["name"]
         secondName = body["surname"]
         pesel = body["PESEL"]
@@ -37,7 +36,7 @@ def code():
                 code = new_code.codeToVote
                 return code, 200
             else:
-                query = votingCode.get(electionID, pesel)
+                query = votingCode.get(id, pesel)
                 code = query.codeToVote
                 return code, 200
         else:
@@ -51,6 +50,15 @@ def candidates(id):
     maxVotes = query[0]
     lists = query[1]
     candidates = []
+    for candidate in lists:
+        if any(elem.get("id") == candidate[0] for elem in candidates):
+            i = [elem.get("id") for elem in candidates].index(candidate[0])
+            candidates[i]["candidates"].append({'id': candidate[2], 'name': candidate[3], 'surname': candidate[4]})
+        else:
+            candidates.append({'id': candidate[0], 'name': candidate[1], 'candidates': []})
+            i = [elem.get("id") for elem in candidates].index(candidate[0])
+            candidates[i]["candidates"].append({'id': candidate[2], 'name': candidate[3], 'surname': candidate[4]})
+    return jsonify(maxVotes=maxVotes, lists=candidates)
 
 
 @app.route('/vote', methods=['POST', 'GET'])
