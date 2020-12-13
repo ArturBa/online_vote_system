@@ -3,8 +3,12 @@ info:
   title: Vote online API
   version: 0.1.0
 paths:
-  /status:
+  /election/{id}/status:
     get:
+       parameters:
+        - in: path
+          name: id 
+          required: true
       description: Get vote systems status
       responses:
         200:
@@ -13,8 +17,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-  /candidates:
+  /elections/<id>/candidates:
     get:
+      parameters:
+        - in: path
+          name: id 
+          required: true
       description: Get candidates
       responses:
         200:
@@ -22,27 +30,43 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Candidates"
-  /getCode:
+                type: object
+                required:
+                  - maxVotes
+                  - lists
+                properties:
+                  maxVotes:
+                    type: number
+                    description: Max votes per user
+                  lists:
+                    type: array
+                    items:
+                     $ref: "#/components/schemas/List"
+  /election/{id}/getCode:
     post:
-      description: Get Code
       parameters:
-        - in: body
-          name: user
-          description: The user to generate code.
-          schema:
-            type: object
-            required:
-              - name
-              - surname
-              - PESEL
-            properties:
-              name:
-                type: string
-              surname:
-                type: string
-              PESEL:
-                type: number
+        - in: path
+          name: id 
+          required: true
+      description: Get Code
+      requestBody:
+        description: The user to generate code.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - surname
+                - PESEL
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                PESEL:
+                  type: number
       responses:
         200:
           description: Success
@@ -61,35 +85,62 @@ paths:
   /vote:
     post:
       description: Make a vote
-      parameters:
-        - in: body
-          name: vote
-          description: The user to generate code.
-          schema:
-            type: object
-            required:
-              - code
-              - vote_list
-            properties:
-              code:
-                type: string
-              vote_list:
-                type: array
-                items:
-                  description: candidate id
+      requestBody:
+        description: Candidates to add votes.
+        required: true
+        content:
+          application/json:
+            schema:      
+              type: object
+              required:
+                - code
+                - lists
+              properties:
+                code:
                   type: string
+                lists:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/List"
       responses:
         200:
           description: Success
         400:
           description: Code invalid
+  /elections/validateUser:
+    post:
+      description: Validates if user exists in the database for given elections
+      requestBody:
+        description: User data to be validated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - surname
+                - pesel
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                pesel:
+                  type: number
+      responses:
+        200:
+          description: Success
+        400:
+          description: User doesn't exists in the database
 
 servers:
   - url: http://localhost:5000
     description: Production server (uses live data)
+  - url: http://localhost:5001
+    description: Validation server
   - url: http://localhost:4000
-    description: Sandbox server (uses test data)
-
+    description: Sandbox server (uses test dat
 components:
   schemas:
     Status:
@@ -105,27 +156,22 @@ components:
         endDate:
           type: string
           format: date
-          description: Start date
+          description: End date
     ElectionsState:
       type: string
       enum:
-        - "EDIT"
-        - "AVAILABLE"
-        - "CANCELED"
-        - "DONE"
-    Candidates:
-      type: object
-      properties:
-        maxVotes:
-          type: number
-          description: Max votes per user
-        list:
-          type: array
-          items:
-            $ref: "#/components/schemas/List"
+        - "inEdition"
+        - "registered"
+        - "ongoing"
+        - "finished"
+        - "closed"
+
     List:
       type: object
       properties:
+        id:
+          type: number
+          description: List id
         name:
           type: string
           description: List name
@@ -137,7 +183,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: number
           description: Candidate id
         name:
           type: string
@@ -145,3 +191,4 @@ components:
         surname:
           type: string
           description: Candidate surname
+
