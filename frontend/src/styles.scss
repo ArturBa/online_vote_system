@@ -1,10 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
 
-html,
-body {
-  height: 100%;
-}
+@import 'colors';
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: $background;
+  color: $black;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.mat-snack-bar-container {
+  background-color: $green;
+  color: $black;
+}
+
+.snack-bar-error {
+  background-color: $red;
 }

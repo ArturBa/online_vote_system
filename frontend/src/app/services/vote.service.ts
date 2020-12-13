@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_URL } from './URL';
 
-import { Status, VoteCode, Voter } from './vote.model';
+import { VoteStatus, Vote, Voter, Candidates } from './vote.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,18 +11,39 @@ import { Status, VoteCode, Voter } from './vote.model';
 export class VoteService {
   constructor(private httpClient: HttpClient) {}
 
-  getStatus(): Observable<Status> {
-    return this.httpClient.get<Status>(API_URL.status);
+  getStatus(id: number): Observable<VoteStatus> {
+    return this.httpClient.get<VoteStatus>(
+      this.replaceAddress(id, API_URL.status),
+    );
   }
 
-  getVoteCode(voter: Voter): Observable<VoteCode> {
+  getVoteCode(id: number, voter: Voter): Observable<string> {
     const headers = { 'content-type': 'application/json' };
-    return this.httpClient.post<VoteCode>(
-      API_URL.voteCote,
+    return this.httpClient.post<string>(
+      this.replaceAddress(id, API_URL.voteCote),
       JSON.stringify(voter),
+      { headers, responseType: 'text' as 'json' },
+    );
+  }
+
+  getCandidates(id: number): Observable<Candidates> {
+    return this.httpClient.get<Candidates>(
+      this.replaceAddress(id, API_URL.candidates),
+    );
+  }
+
+  vote(id: number, vote: Vote): Observable<void> {
+    const headers = { 'content-type': 'application/json' };
+    return this.httpClient.post<void>(
+      this.replaceAddress(id, API_URL.vote),
+      JSON.stringify(vote),
       {
         headers,
       },
     );
+  }
+
+  protected replaceAddress(id: number, address: string): string {
+    return address.replace(':id', id.toString());
   }
 }

@@ -5,9 +5,9 @@ info:
 paths:
   /election/{id}/status:
     get:
-       parameters:
+      parameters:
         - in: path
-          name: id 
+          name: id
           required: true
       description: Get vote systems status
       responses:
@@ -17,11 +17,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-  /elections/<id>/candidates:
+  /election/{id}/candidates:
     get:
       parameters:
         - in: path
-          name: id 
+          name: id
           required: true
       description: Get candidates
       responses:
@@ -41,12 +41,12 @@ paths:
                   lists:
                     type: array
                     items:
-                     $ref: "#/components/schemas/List"
+                      $ref: "#/components/schemas/List"
   /election/{id}/getCode:
     post:
       parameters:
         - in: path
-          name: id 
+          name: id
           required: true
       description: Get Code
       requestBody:
@@ -72,25 +72,29 @@ paths:
           description: Success
           content:
             text/plain:
-              schema: 
+              schema:
                 type: string
                 example: code
         400:
           description: Error
           content:
             text/plain:
-              schema: 
+              schema:
                 type: string
                 example: Data invalid
-  /vote:
+  /election/{id}/vote:
     post:
       description: Make a vote
+      parameters:
+        - in: path
+          name: id
+          required: true
       requestBody:
         description: Candidates to add votes.
         required: true
         content:
           application/json:
-            schema:      
+            schema:
               type: object
               required:
                 - code

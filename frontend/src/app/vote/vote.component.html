@@ -1,11 +1,10 @@
-<h1>Vote online system</h1>
+<div class="header">
+  <h1>Voting is: {{ voteStatus?.electionsState }}</h1>
+  <h3>Start: {{ voteStatus?.startDate | date: 'd MMM y' }}</h3>
+  <h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
+</div>
 
-{{ status | json }}
-<br />
-
-<mat-form-field class="example-full-width">
-  <mat-label>Name</mat-label>
-  <input matInput placeholder="Ex. pat@example.com" />
-</mat-form-field>
-
-<button (click)="getVoteCode()">Send voter</button>
+<div class="row" *ngIf="voteStatus?.electionsState == electionState.ACTIVE">
+  <app-generate-code class="tile" [id]="id"></app-generate-code>
+  <app-make-vote class="tile" [id]="id"></app-make-vote>
+</div>

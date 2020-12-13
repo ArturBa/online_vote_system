@@ -1,0 +1,19 @@
+@import '../../../colors';
+
+:host {
+  .code {
+    width: 100%;
+    min-height: 3rem;
+    padding: 5px;
+    border-radius: 10px;
+
+    &User {
+      @extend .code;
+      background-color: $green;
+    }
+    &Error {
+      @extend .code;
+      background-color: $red;
+    }
+  }
+}
