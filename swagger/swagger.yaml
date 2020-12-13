@@ -84,7 +84,7 @@ paths:
               schema: 
                 type: string
                 example: Data invalid
-  /elections/<id>/vote:
+  /vote:
     post:
       description: Make a vote
       requestBody:
@@ -109,30 +109,38 @@ paths:
           description: Success
         400:
           description: Code invalid
-  /elections/<id>/validateUser:
+  /elections/validateUser:
     post:
       description: Validates if user exists in the database for given elections
-      parameters:
-        - in: body
-          name: validate
-          description: The user to generate code.
-          schema:
-            type: object
-            required:
-              - name
-              - surname
-              - pesel
-            properties:
-              name:
-                type: string
-              surname:
-                type: string
-              pesel:
-                type: number
+      requestBody:
+        description: User data to be validated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - surname
+                - pesel
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                pesel:
+                  type: number
+      responses:
+        200:
+          description: Success
+        400:
+          description: User doesn't exists in the database
 
 servers:
   - url: http://localhost:5000
     description: Production server (uses live data)
+  - url: http://localhost:5001
+    description: Validation server
   - url: http://localhost:4000
     description: Sandbox server (uses test data)
 
