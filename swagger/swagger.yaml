@@ -111,13 +111,40 @@ paths:
           description: Success
         400:
           description: Code invalid
+  /elections/validateUser:
+    post:
+      description: Validates if user exists in the database for given elections
+      requestBody:
+        description: User data to be validated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - surname
+                - pesel
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                pesel:
+                  type: number
+      responses:
+        200:
+          description: Success
+        400:
+          description: User doesn't exists in the database
 
 servers:
   - url: http://localhost:5000
     description: Production server (uses live data)
+  - url: http://localhost:5001
+    description: Validation server
   - url: http://localhost:4000
-    description: Sandbox server (uses test data)
-
+    description: Sandbox server (uses test dat
 components:
   schemas:
     Status:
@@ -168,3 +195,4 @@ components:
         surname:
           type: string
           description: Candidate surname
+
