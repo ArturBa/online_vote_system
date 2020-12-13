@@ -67,8 +67,6 @@ paths:
                   type: string
                 PESEL:
                   type: number
-         
-            
       responses:
         200:
           description: Success
@@ -142,8 +140,7 @@ servers:
   - url: http://localhost:5001
     description: Validation server
   - url: http://localhost:4000
-    description: Sandbox server (uses test data)
-
+    description: Sandbox server (uses test dat
 components:
   schemas:
     Status:
@@ -194,4 +191,4 @@ components:
         surname:
           type: string
           description: Candidate surname
-  
+

@@ -1,0 +1,11 @@
+<h1>Vote online system</h1>
+
+{{ status | json }}
+<br />
+
+<mat-form-field class="example-full-width">
+  <mat-label>Name</mat-label>
+  <input matInput placeholder="Ex. pat@example.com" />
+</mat-form-field>
+
+<button (click)="getVoteCode()">Send voter</button>
