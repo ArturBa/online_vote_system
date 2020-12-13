@@ -3,7 +3,7 @@ info:
   title: Vote online API
   version: 0.1.0
 paths:
-  /status:
+  /election/<id>/status:
     get:
       description: Get vote systems status
       responses:
@@ -13,7 +13,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-  /election/{id}/candidates:
+  /elections/<id>/candidates:
     get:
       parameters:
         - in: path
@@ -38,32 +38,29 @@ paths:
                     type: array
                     items:
                      $ref: "#/components/schemas/List"
-  /getCode:
+  /elections/<id>/getCode:
     post:
       description: Get Code
-      requestBody:
-        description: The user to generate code.
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - electionID
-                - name
-                - surname
-                - PESEL
-              properties:
-                electionID:
-                  type: number
-                name:
-                  type: string
-                surname:
-                  type: string
-                PESEL:
-                  type: number
-         
-            
+      parameters:
+        - in: body
+          name: user
+          description: The user to generate code.
+          schema:
+            type: object
+            required:
+              - name
+              - surname
+              - PESEL
+              - verification
+            properties:
+              name:
+                type: string
+              surname:
+                type: string
+              PESEL:
+                type: number
+              verification;
+                type: bool
       responses:
         200:
           description: Success
@@ -79,7 +76,7 @@ paths:
               schema: 
                 type: string
                 example: Data invalid
-  /vote:
+  /elections/<id>/vote:
     post:
       description: Make a vote
       requestBody:
@@ -104,6 +101,26 @@ paths:
           description: Success
         400:
           description: Code invalid
+  /elections/<id>/validateUser:
+    post:
+      description: Validates if user exists in the database for given elections
+      parameters:
+        - in: body
+          name: validate
+          description: The user to generate code.
+          schema:
+            type: object
+            required:
+              - name
+              - surname
+              - pesel
+            properties:
+              name:
+                type: string
+              surname:
+                type: string
+              pesel:
+                type: number
 
 servers:
   - url: http://localhost:5000

@@ -6,7 +6,7 @@ import Backend.src.db1.electionList as electionList
 import Backend.src.db1.candidate as candidate
 import Backend.src.db1.votingCode as votingCode
 import datetime
-
+import requests
 
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
@@ -30,7 +30,8 @@ def code():
         firstName = body["name"]
         secondName = body["surname"]
         pesel = body["PESEL"]
-        if voter.verify(pesel, firstName, secondName):
+        verificationResults = requests.post('http://localhost:5001/elections/validateUser', json = body)
+        if verificationResults.status_code:
             if votingCode.get(electionID, pesel) is None:
                 new_code = votingCode.create(electionID, pesel)
                 code = new_code.codeToVote
