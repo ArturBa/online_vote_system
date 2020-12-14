@@ -17,8 +17,8 @@ CORS(app)
 @app.route('/election/<int:id>/status', methods=['GET'])
 def index(id):
     electionsQuery = elections.get(id)
-    return jsonify(electionsState=electionsQuery.electionsState, startTime=electionsQuery.startTime,\
-                   endTime=electionsQuery.endTime)
+    return jsonify(electionsState=electionsQuery.electionsState, startDate=electionsQuery.startTime.isoformat(),\
+                   endDate=electionsQuery.endTime.isoformat())
 
 
 @app.route('/election/<int:id>/getCode', methods=['POST', 'GET'])
@@ -30,8 +30,8 @@ def code(id):
         pesel = body["PESEL"]
         verificationResults = requests.post('http://localhost:5001/elections/validateUser', json = body)
         if verificationResults.status_code:
-            if votingCode.get(electionID, pesel) is None:
-                new_code = votingCode.create(electionID, pesel)
+            if votingCode.get(id, pesel) is None:
+                new_code = votingCode.create(id, pesel)
                 code = new_code.codeToVote
                 return code, 200
             else:
@@ -57,23 +57,23 @@ def candidates(id):
             candidates.append({'id': candidate[0], 'name': candidate[1], 'candidates': []})
             i = [elem.get("id") for elem in candidates].index(candidate[0])
             candidates[i]["candidates"].append({'id': candidate[2], 'name': candidate[3], 'surname': candidate[4]})
-    return jsonify(maxVotes=maxVotes, lists=candidates)
+    return jsonify(maxVotes=maxVotes, list=candidates)
 
 
-@app.route('/vote', methods=['POST', 'GET'])
-def vote():
+@app.route('/election/<int:id>/vote', methods=['POST', 'GET'])
+def vote(id):
     if request.method == "POST":
         body = request.json
         code = body["code"]
-        lists = body["lists"]
+        lists = body["vote_list"]
         if votingCode.verify(code):
             for list in lists:
                 for cand in list["candidates"]:
                     list_id = list["id"]
-                    id = cand["id"]
+                    cand_id = cand["id"]
                     name = cand["name"]
                     surname = cand["surname"]
-                    result = candidate.vote(list_id, id, name, surname)
+                    result = candidate.vote(list_id, cand_id, name, surname)
                     print(result, file=stdout)
             message = "Success"
             return message, 200

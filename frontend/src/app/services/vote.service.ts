@@ -37,9 +37,7 @@ export class VoteService {
     return this.httpClient.post<void>(
       this.replaceAddress(id, API_URL.vote),
       JSON.stringify(vote),
-      {
-        headers,
-      },
+      { headers, responseType: 'text' as 'json' },
     );
   }
 
