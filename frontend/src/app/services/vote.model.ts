@@ -17,6 +17,11 @@ export interface Vote {
   vote_list: string[];
 }
 
+export interface Votes {
+  counted: number;
+  all: number;
+}
+
 export interface Voter {
   PESEL: number;
   firstName: string;

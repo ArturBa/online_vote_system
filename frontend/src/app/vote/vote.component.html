@@ -1,10 +1,11 @@
-<div class="header">
+<div [ngClass]="{ header: voteStatus?.electionsState != electionState.ACTIVE }">
   <h1>Voting is: {{ voteStatus?.electionsState }}</h1>
   <h3>Start: {{ voteStatus?.startDate | date: 'd MMM y' }}</h3>
   <h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
 </div>
 
 <div class="row" *ngIf="voteStatus?.electionsState == electionState.ACTIVE">
+  <app-vote-status [id]="id"></app-vote-status>
   <app-generate-code class="tile" [id]="id"></app-generate-code>
   <app-make-vote class="tile" [id]="id"></app-make-vote>
 </div>

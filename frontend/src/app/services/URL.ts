@@ -5,4 +5,5 @@ export const API_URL = {
   voteCote: MainURL + 'getCode',
   candidates: MainURL + 'candidates',
   vote: MainURL + 'vote',
+  votes: MainURL + 'votes',
 };

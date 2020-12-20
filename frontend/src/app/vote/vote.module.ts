@@ -12,9 +12,15 @@ import { VoteComponent } from './vote.component';
 import { VoteRoutingModule } from './vote-routing.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { VoteStatusComponent } from './vote-status/vote-status.component';
 
 @NgModule({
-  declarations: [VoteComponent, GenerateCodeComponent, MakeVoteComponent],
+  declarations: [
+    VoteComponent,
+    GenerateCodeComponent,
+    MakeVoteComponent,
+    VoteStatusComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,

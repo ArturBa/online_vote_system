@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_URL } from './URL';
 
-import { VoteStatus, Vote, Voter, Candidates } from './vote.model';
+import { VoteStatus, Vote, Voter, Candidates, Votes } from './vote.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,10 @@ export class VoteService {
     return this.httpClient.get<VoteStatus>(
       this.replaceAddress(id, API_URL.status),
     );
+  }
+
+  getVotes(id: number): Observable<Votes> {
+    return this.httpClient.get<Votes>(this.replaceAddress(id, API_URL.votes));
   }
 
   getVoteCode(id: number, voter: Voter): Observable<string> {

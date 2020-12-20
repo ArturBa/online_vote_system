@@ -52,10 +52,17 @@ app.get("/election/:id/candidates", (req, res) => {
   });
 });
 
+app.get("/election/:id/votes", (req, res) => {
+  res.send({
+    all: 400,
+    counted: 200,
+  });
+});
+
 app.post("/election/:id/vote", (req, res) => {
   console.log(JSON.stringify(req.body));
-  // res.status(400).send();
-  res.send();
+  res.status(400).send();
+  // res.send("Success");
 });
 
 app.listen(port, () => console.log(`listening on ${port}`));

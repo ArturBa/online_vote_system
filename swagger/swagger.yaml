@@ -111,6 +111,27 @@ paths:
           description: Success
         400:
           description: Code invalid
+  /election/{id}/votes:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+      description: Get votes counter and all
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  all:
+                    type: number
+                    description: All votes
+                  counted:
+                    type: number
+                    description: Counted votes
   /elections/validateUser:
     post:
       description: Validates if user exists in the database for given elections
@@ -195,4 +216,3 @@ components:
         surname:
           type: string
           description: Candidate surname
-

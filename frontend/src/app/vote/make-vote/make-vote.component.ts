@@ -44,15 +44,7 @@ export class MakeVoteComponent implements OnInit {
     const candidateIds = this.selectedCandidates.map(
       (candidate) => candidate.candidates[0].id,
     );
-    // console.log(JSON.stringify(this.voteStructure(listID, candidate)));
-    // console.log(
-    //   this.selectedCandidates.indexOf(this.voteStructure(listID, candidate))
-    // );
     return candidateIds.indexOf(candidate.id) >= 0;
-    return (
-      this.selectedCandidates.indexOf(this.voteStructure(listID, candidate)) >=
-      0
-    );
   }
 
   selectionValid(): boolean {
@@ -93,12 +85,12 @@ export class MakeVoteComponent implements OnInit {
     };
     this.voteService.vote(this.id, vote).subscribe(
       () => {
-        this.snackBar.open('Vote success', 'X', { duration: 1000 });
+        this.snackBar.open('Vote success', 'X', { duration: 5000 });
         this.selectedCandidates = [];
         this.form.get('code').patchValue('');
         this.cdr.detectChanges();
       },
-      () => {
+      (err) => {
         this.snackBar.open('Code invalid', 'X', {
           duration: 50000,
           panelClass: 'snack-bar-error',
