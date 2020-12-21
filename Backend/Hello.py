@@ -81,5 +81,17 @@ def vote(id):
             message = "Code invalid"
             return message, 400
 
+@app.route('/election/<int:id>/vote', methods=['GET'])
+def vote_count(id):
+    if request.method == 'GET':
+        all_votes = votingCode.get_all()
+        all_count = len(all_votes)
+        used_count = 0
+        for vote in all_votes:
+            if votingCode.verify(vote.codeToVote) != 0:
+                used_count += 1
+        to_send = jsonify(all=all_count, counted=used_count)
+        return to_send, 200
+
 if __name__ == '__main__':
     app.run(debug=True)
