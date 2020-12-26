@@ -75,11 +75,13 @@ def vote(id):
                     surname = cand["surname"]
                     result = candidate.vote(list_id, cand_id, name, surname)
                     print(result, file=stdout)
+            votingCode.use(code)
             message = "Success"
             return message, 200
         else:
             message = "Code invalid"
             return message, 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)

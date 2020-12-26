@@ -57,10 +57,23 @@ def verify(code):
     # check if given codeToVote is correct and haven't been used already
     session = Session1()
     default = "USEDCODE"
-    codeToVote = session.query(VotingCode).filter_by(codeToVote=code).scalar()
-    if codeToVote is None or codeToVote == default:
+    query = session.query(VotingCode).filter_by(codeToVote=code).scalar()
+    if query is None or query.used or query.codeToVote == default:
         return 0
     else:
+        return 1
+
+
+def use(code):
+    # mark given code as used
+    session = Session1()
+    default = "USEDCODE"
+    codeToVote = session.query(VotingCode).filter_by(codeToVote=code)
+    if codeToVote.scalar() is None:
+        return 0
+    else:
+        codeToVote.update({'used': True, 'codeToVote': default})
+        session.commit()
         return 1
 
 
