@@ -24,6 +24,7 @@ def get_all():
     # get all election Lists
     session = Session1()
     electionLists = session.query(ElectionList).all()
+    session.close()
     return electionLists
 
 
@@ -31,6 +32,7 @@ def get(elections_id, listName):
     # get the election List with given election_id and listName
     session = Session1()
     electionList = session.query(ElectionList).filter_by(elections_id=elections_id, listName=listName).scalar()
+    session.close()
     return electionList
 
 
@@ -39,11 +41,13 @@ def create(listName):
     session = Session1()
     exists = session.query(session.query(ElectionList).filter_by(listName=listName).exists()).scalar()
     if (exists):
+        session.close()
         return 0
     else:
         new_list = ElectionList(listName)
         session.add(new_list)
         session.commit()
+        session.close()
         return 1
 
 
@@ -53,6 +57,7 @@ def register(id, elections_id):
     election = session.query(ElectionList).filter_by(id=id)
     election.update({'elections_id': elections_id, 'registrationDate': datetime.datetime.now()})
     session.commit()
+    session.close()
 
 
 def delete(id):
