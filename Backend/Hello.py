@@ -18,7 +18,7 @@ CORS(app)
 def index(id):
     electionsQuery = elections.get(id)
     return jsonify(electionsState=electionsQuery.electionsState, startDate=electionsQuery.startTime.isoformat(),\
-                   endDate=electionsQuery.endTime.isoformat())
+                   endDate=electionsQuery.endTime.isoformat(), electedOrgan=electionsQuery.electedOrgan)
 
 
 @app.route('/election/<int:id>/getCode', methods=['POST', 'GET'])

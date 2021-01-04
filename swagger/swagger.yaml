@@ -182,6 +182,9 @@ components:
           type: string
           format: date
           description: End date
+        electedOrgan:
+          type: string
+          description: Organ that is elected during voting
     ElectionsState:
       type: string
       enum:
