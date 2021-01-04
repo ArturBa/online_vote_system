@@ -27,7 +27,6 @@ def get_all():
     # get all voting_codes
     session = Session1()
     codes = session.query(VotingCode).all()
-    session.close()
     return codes
 
 
@@ -35,7 +34,6 @@ def get(election_id, pesel):
     # get the voting code with given election_id and pesel
     session = Session1()
     code = session.query(VotingCode).filter_by(elections_id=election_id, pesel=pesel).scalar()
-    session.close()
     return code
 
 
@@ -52,7 +50,6 @@ def create(election_id, pesel):
     new_code = VotingCode(election_id, pesel, code)
     session.add(new_code)
     session.commit()
-    session.close()
     return new_code
 
 
@@ -62,10 +59,8 @@ def verify(code):
     default = "USEDCODE"
     query = session.query(VotingCode).filter_by(codeToVote=code).scalar()
     if query is None or query.used or query.codeToVote == default:
-        session.close()
         return 0
     else:
-        session.close()
         return 1
 
 
@@ -75,12 +70,10 @@ def use(code):
     default = "USEDCODE"
     codeToVote = session.query(VotingCode).filter_by(codeToVote=code)
     if codeToVote.scalar() is None:
-        session.close()
         return 0
     else:
         codeToVote.update({'used': True, 'codeToVote': default})
         session.commit()
-        session.close()
         return 1
 
 
@@ -89,4 +82,3 @@ def delete(election_id, pesel):
     session = Session1()
     session.query(VotingCode).filter_by(election_id=election_id, pesel=pesel).delete()
     session.commit()
-    session.close()
