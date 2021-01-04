@@ -1,5 +1,6 @@
 <div [ngClass]="{ header: voteStatus?.electionsState != electionState.ACTIVE }">
-  <h1>Voting is: {{ voteStatus?.electionsState }}</h1>
+  <h1>Elected organ: {{ voteStatus?.electedOrgan }}</h1>
+  <h2>Voting is: {{ voteStatus?.electionsState }}</h2>
   <h3>Start: {{ voteStatus?.startDate | date: 'd MMM y' }}</h3>
   <h3>End: {{ voteStatus?.endDate | date: 'd MMM y' }}</h3>
 </div>

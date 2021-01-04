@@ -2,6 +2,7 @@ export interface VoteStatus {
   electionsState: string;
   startDate: string;
   endDate: string;
+  electedOrgan: string;
 }
 
 export enum ElectionsState {

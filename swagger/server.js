@@ -20,6 +20,7 @@ app.get("/election/:id/status", (req, res) => {
     electionsState: "ongoing",
     startDate: "2020-11-19T00:00:00.00Z",
     endDate: "2020-11-29T00:00:00.00Z",
+    electedOrgan: "Burmistrz Wąchocka",
   });
 });
 
