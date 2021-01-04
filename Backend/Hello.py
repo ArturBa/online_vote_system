@@ -89,7 +89,7 @@ def vote_count(id):
         all_count = len(all_votes)
         used_count = 0
         for vote in all_votes:
-            if votingCode.verify(vote.codeToVote) != 0:
+            if vote.used == True:
                 used_count += 1
         to_send = jsonify(all=all_count, counted=used_count)
         return to_send, 200

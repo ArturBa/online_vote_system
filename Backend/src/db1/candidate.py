@@ -26,6 +26,7 @@ def get_all():
     # get all candidates
     session = Session1()
     candidates = session.query(Candidate).all()
+    session.close()
     return candidates
 
 
@@ -34,6 +35,7 @@ def get(electionsList, firstName, secondName):
     session = Session1()
     candidate = session.query(Candidate) \
         .filter_by(electionList_id=electionsList, firstName=firstName, secondName=secondName).scalar()
+    session.close()   
     return candidate
 
 
@@ -44,8 +46,10 @@ def add(electionsList, firstName, secondName):
         new_candidate = Candidate(electionsList, firstName, secondName)
         session.add(new_candidate)
         session.commit()
+        session.close()
         return 1
     else:
+        session.close()
         return 0
 
 
@@ -54,6 +58,7 @@ def delete(id):
     session = Session1()
     session.query(Candidate).filter_by(id=id).delete()
     session.commit()
+    session.close()
 
 
 def vote(electionsList, id, firstName, secondName):
@@ -67,6 +72,8 @@ def vote(electionsList, id, firstName, secondName):
         else:
             candidate.update({'numberOfVotes': Candidate.numberOfVotes + 1})
         session.commit()
+        session.close()
         return 1
     else:
+        session.close()
         return 0
